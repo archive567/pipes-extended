@@ -13,7 +13,8 @@ library
                      , Pipes.Monoid
                      , Pipes.Getter
   build-depends:       base >=4.6 && <4.8
-                     , attoparsec 
+                     , attoparsec
+                     , binary 
                      , bytestring 
                      , containers 
                      , contravariant 
@@ -23,9 +24,7 @@ library
                      , pipes-attoparsec 
                      , pipes-binary 
                      , pipes-bytestring 
-                     , pipes-csv 
                      , pipes-group
-                     , pipes-network 
                      , pipes-parse 
                      , pipes-safe 
                      , transformers 

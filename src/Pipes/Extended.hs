@@ -10,7 +10,6 @@ module Pipes.Extended
   , module Pipes.Monoid
   , module Pipes.Getter
   , module Pipes
-  , module X
   ) where
 
 import           Prelude hiding (readFile, writeFile, lines)
@@ -20,7 +19,9 @@ import           Control.Monad
 import qualified Control.Monad.Trans.State.Strict as S
 import qualified Data.Attoparsec.ByteString.Char8 as AC
 import qualified Data.Attoparsec.Types as Attoparsec
+import Data.Binary (Binary)
 import qualified Data.ByteString.Char8 as C
+import           Data.ByteString (ByteString)
 import qualified Data.ByteString.Lazy as L
 import           Data.ByteString.Lazy.Builder
 import           Data.ByteString.Lazy.Internal (foldrChunks)
@@ -30,9 +31,8 @@ import           Data.Monoid
 import           Data.Tuple (swap)
 import           Pipes
 import           Pipes.Attoparsec
-import           Pipes.Binary as X
 import qualified Pipes.ByteString as PB
-import           Pipes.ByteString as X
+import qualified Pipes.Binary as PBIN
 import           Pipes.Getter
 import           Pipes.Internal (unsafeHoist)
 import           Pipes.Lift (distribute)
@@ -125,28 +125,28 @@ writeFileLazy file = bracket
 
 -- Binary Files
 
-readBinaryFile :: (Binary a) => FilePath -> Producer a (SafeT IO) (Either (DecodingError, Producer ByteString (SafeT IO) ()) ())
+readBinaryFile :: (Binary a) => FilePath -> Producer a (SafeT IO) (Either (PBIN.DecodingError, Producer ByteString (SafeT IO) ()) ())
 readBinaryFile file = bracket
     (openFile file ReadMode)
     hClose
-    (view decoded . PB.fromHandle)
+    (view PBIN.decoded . PB.fromHandle)
 
 writeBinaryFile :: (Binary a) => FilePath -> Consumer' a (SafeT IO) ()
 writeBinaryFile file = bracket
     (openFile file WriteMode)
     hClose
-    (\h -> for cat encode >-> PB.toHandle h)
+    (\h -> for cat PBIN.encode >-> PB.toHandle h)
 
 readBinaryFileUnsafe :: Binary a => FilePath -> Producer a IO ()
 readBinaryFileUnsafe file = do
     h <- lift $ openFile file ReadMode
-    (view decoded . PB.fromHandle) h
+    (view PBIN.decoded . PB.fromHandle) h
     lift $ hClose h
 
 writeBinaryFileUnsafe :: (Binary a) => FilePath -> Consumer' a IO ()
 writeBinaryFileUnsafe file = do
     h <- lift $ openFile file WriteMode
-    for cat encode >-> PB.toHandle h
+    for cat PBIN.encode >-> PB.toHandle h
     lift $ hClose h
 
 {- $pparse
