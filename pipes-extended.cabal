@@ -1,31 +1,30 @@
-name:                pipes-extended
-version:             0.1.0.0
-synopsis:            Pipes with batteries included.
-license:             MIT
-license-file:        LICENSE
-author:              Tony Day
-maintainer:          tonyday567@gmail.com
-build-type:          Simple
-cabal-version:       >=1.10
+name: pipes-extended
+version: 0.0.1
+cabal-version: >=1.10
+build-type: Simple
+license: MIT
+license-file: LICENSE.md
+maintainer: Tony Day <tonyday567@gmail.com>
+bug-reports: https://github.com/tonyday567/pipes-extended/issues
+synopsis: pipes ecosystem extensions
+description: <https://github.com/tonyday567/pipes-extended>
+extra-source-files: README.md
 
 library
   exposed-modules:     Pipes.Extended
                      , Pipes.Monoid
                      , Pipes.Getter
-  build-depends:       base >=4.6 && <4.8
+  build-depends:       base == 4.*
                      , attoparsec
                      , binary 
                      , bytestring 
                      , containers 
                      , contravariant 
                      , lens 
-                     , managed 
                      , pipes 
                      , pipes-attoparsec 
                      , pipes-binary 
                      , pipes-bytestring 
-                     , pipes-group
-                     , pipes-parse 
                      , pipes-safe 
                      , transformers 
 
