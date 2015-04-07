@@ -11,7 +11,7 @@ Some pipes helpers and rational structure for the pipes zoo.
 ## Develop
 
 ``` sh
-$ git clone https://github.com/tonyday567/pipes-extended.hs
+$ git clone https://github.com/tonyday567/pipes-extended.git
 $ cd pipes-extended
 
 $ cabal sandbox init
